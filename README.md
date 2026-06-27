@@ -1,7 +1,7 @@
 # 📡 Système Intelligent de Prédiction du Churn Client - Horizon Telecom
 
 <p align="center">
-  <img src="project PFEdd/static/Maroc_Telecom_logo.png" alt="Horizon Telecom Logo" width="220">
+  <img src="project PFEdd/static/horizon_logo.png" alt="Horizon Telecom Logo" width="220">
 </p>
 
 Ce dépôt contient la solution complète et industrielle de prédiction du **Churn (attrition client)** développée pour l'opérateur **Horizon Telecom**. En s'appuyant sur des algorithmes d'apprentissage automatique (Machine Learning), cette application permet d'anticiper la perte de clients afin d'orchestrer des campagnes de fidélisation ciblées et proactives.

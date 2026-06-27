@@ -1,9 +1,9 @@
-# 📡 Telecom Customer Churn Prediction - Maroc Telecom
+# 📡 Telecom Customer Churn Prediction - Horizon Telecom
 
-![Maroc Telecom](static/Maroc_Telecom_logo.png)
+![Horizon Telecom](static/horizon_logo.png)
 
 ## 📝 Présentation du Projet
-Ce projet de fin d'études (PFE) vise à développer une solution intelligente pour la prédiction de la perte de clients (Churn) pour **Maroc Telecom**. En utilisant des algorithmes d'apprentissage automatique, l'application identifie les clients susceptibles de résilier leur contrat, permettant ainsi à l'entreprise de prendre des mesures préventives.
+Ce projet de fin d'études (PFE) vise à développer une solution intelligente pour la prédiction de la perte de clients (Churn) pour **Horizon Telecom**. En utilisant des algorithmes d'apprentissage automatique, l'application identifie les clients susceptibles de résilier leur contrat, permettant ainsi à l'entreprise de prendre des mesures préventives.
 
 ## 🚀 Fonctionnalités Clés
 - **Prédiction Individuelle :** Formulaire interactif pour tester un client spécifique.
