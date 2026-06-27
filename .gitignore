@@ -1,0 +1,28 @@
+# Virtual Environment
+**/venv/
+**/.venv/
+env/
+venv/
+**/env/
+
+# Python caching
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+
+# Large Zip files
+*.zip
+**/*.zip
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+
+# User-specific / System files
+.DS_Store
+Thumbs.db
+
+# Output data files
+predicted_data.csv
+**/predicted_data.csv

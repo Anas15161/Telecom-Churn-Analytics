@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horizon Telecom - Churn Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='icon.png') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="main-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>Exemples du Dataset</h3>
+                <p>Cliquez pour remplir le formulaire</p>
+            </div>
+            <div class="example-list">
+                {% for ex in examples %}
+                <div class="example-item" onclick='fillForm(this, {{ ex | tojson | safe }})'>
+                    <span class="ex-label">Client #{{ loop.index }}</span>
+                    <span class="ex-details">{{ ex.Contract }}, {{ ex.tenure }} mois</span>
+                </div>
+                {% endfor %}
+            </div>
+        </aside>
+
+        <main class="content-area">
+            <div class="container">
+                <div class="header">
+                    <img src="{{ url_for('static', filename='Maroc_Telecom_logo.png') }}" alt="Horizon Telecom Logo" class="logo">
+                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;"><h1>Prédiction de Résiliation Client</h1><a href="/details" class="btn btn-outline" style="text-decoration: none;"><i class="fas fa-file-alt"></i> Détails Techniques</a></div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="showSingleCustomer()">Individuel</button>
+                    <button class="btn btn-outline" onclick="showCSVExcel()">Batch (CSV/Excel)</button>
+                </div>
+
+                <div id="Predict_Single_Customer">
+                    {% if prediction is defined %}
+                    <div class="prediction-result {% if prediction == 1 %}prediction-churn{% else %}prediction-no-churn{% endif %}">
+                        {% if prediction == 1 %}
+                            <i class="fas fa-exclamation-triangle"></i> Ce client est susceptible de se désabonner !
+                        {% elif prediction == 0 %}
+                            <i class="fas fa-check-circle"></i> Le client est susceptible de rester fidèle.
+                        {% else %}
+                            {{ prediction|safe }}
+                        {% endif %}
+                    </div>
+                    {% endif %}
+
+                    <form id="prediction-form" action="/predict" method="post">
+                        <div class="form-group">
+                            <label for="SeniorCitizen">Senior Citizen :</label>
+                            <select name="SeniorCitizen" id="SeniorCitizen" class="form-control">
+                                <option value="No">Non</option>
+                                <option value="Yes">Oui</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Dependents">Personnes à charge :</label>
+                            <select name="Dependents" id="Dependents" class="form-control">
+                                <option value="No">Non</option>
+                                <option value="Yes">Oui</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tenure">Ancienneté (mois) :</label>
+                            <input type="number" min="0" step="any" class="form-control" name="tenure" id="tenure" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="onlinesecurity">Sécurité en ligne :</label>
+                            <select name="onlinesecurity" id="onlinesecurity" class="form-control">
+                                <option value="No">Non</option>
+                                <option value="Yes">Oui</option>
+                                <option value="No internet service">Pas d'internet</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="onlinebackup">Sauvegarde en ligne :</label>
+                            <select name="onlinebackup" id="onlinebackup" class="form-control">
+                                <option value="No">Non</option>
+                                <option value="Yes">Oui</option>
+                                <option value="No internet service">Pas d'internet</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="DeviceProtection">Protection de l'appareil :</label>
+                            <select name="DeviceProtection" id="DeviceProtection" class="form-control">
+                                <option value="No">Non</option>
+                                <option value="Yes">Oui</option>
+                                <option value="No internet service">Pas d'internet</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="techsupport">Support technique :</label>
+                            <select name="techsupport" id="techsupport" class="form-control">
+                                <option value="No">Non</option>
+                                <option value="Yes">Oui</option>
+                                <option value="No internet service">Pas d'internet</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contract">Contrat :</label>
+                            <select name="contract" id="contract" class="form-control">
+                                <option value="Month-to-month">Mensuel</option>
+                                <option value="One year">Un an</option>
+                                <option value="Two year">Deux ans</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="monthlycharges">Charges mensuelles :</label>
+                            <input type="number" step="any" min="0" class="form-control" name="monthlycharges" id="monthlycharges" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="totalcharges">Charges totales :</label>
+                            <input type="number" step="any" min="0" class="form-control" name="totalcharges" id="totalcharges" required>
+                        </div>
+
+                        <div class="full-width">
+                            <button type="submit" class="btn btn-primary">Prédire</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="Predict_from_CSVExcel" style="display: none;">
+                    <form action="/predict" method="post" enctype="multipart/form-data">
+                        <div class="full-width">
+                            <div class="upload-box" onclick="document.getElementById('file_csv').click()">
+                                <input type="file" name="file_csv" id="file_csv" accept=".csv, .xlsx, .xls" style="display: none">
+                                <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; color: var(--mt-red);"></i>
+                                <p>Cliquez ou glissez un fichier ici (CSV ou Excel)</p>
+                                <div id="file-name">Aucun fichier sélectionné</div>
+                            </div>
+                        </div>
+                        <div class="full-width">
+                            <button type="submit" class="btn btn-primary">Lancer l'analyse batch</button>
+                        </div>
+                    </form>
+
+                    {% if table %}
+                    <div class="table-results">
+                        <div class="results-header" style="display: flex; justify-content: space-between; align-items: center; margin: 20px 0;">
+                            <h2 style="color: var(--mt-red); margin: 0;">Résultats de l'analyse</h2>
+                            {% if download_available %}
+                            <a href="/download" class="btn btn-outline" style="text-decoration: none;">
+                                <i class="fas fa-download"></i> Télécharger CSV
+                            </a>
+                            {% endif %}
+                        </div>
+                        <div class="table-container">
+                            {{ table|safe }}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Horizon Telecom - Département Data Science</p>
+    </footer>
+
+    <script>
+        function toggleSections(showId, hideId) {
+            const showEl = document.getElementById(showId);
+            const hideEl = document.getElementById(hideId);
+            
+            hideEl.style.opacity = '0';
+            setTimeout(() => {
+                hideEl.style.display = 'none';
+                showEl.style.display = 'block';
+                setTimeout(() => {
+                    showEl.style.opacity = '1';
+                }, 50);
+            }, 300);
+            
+            localStorage.setItem('showSection', showId);
+            localStorage.setItem('hideSection', hideId);
+        }
+
+        function showSingleCustomer() {
+            toggleSections('Predict_Single_Customer', 'Predict_from_CSVExcel');
+        }
+
+        function showCSVExcel() {
+            toggleSections('Predict_from_CSVExcel', 'Predict_Single_Customer');
+        }
+
+        function fillForm(element, data) {
+            showSingleCustomer();
+            document.getElementById('SeniorCitizen').value = data.SeniorCitizen;
+            document.getElementById('Dependents').value = data.Dependents;
+            document.getElementById('tenure').value = data.tenure;
+            document.getElementById('onlinesecurity').value = data.OnlineSecurity;
+            document.getElementById('onlinebackup').value = data.OnlineBackup;
+            document.getElementById('DeviceProtection').value = data.DeviceProtection;
+            document.getElementById('techsupport').value = data.TechSupport;
+            document.getElementById('contract').value = data.Contract;
+            document.getElementById('monthlycharges').value = data.MonthlyCharges;
+            document.getElementById('totalcharges').value = data.TotalCharges;
+            
+            // Visual feedback
+            const items = document.querySelectorAll('.example-item');
+            items.forEach(i => i.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        document.getElementById('file_csv').addEventListener('change', function() {
+            const fileName = this.files[0] ? this.files[0].name : "Aucun fichier sélectionné";
+            document.getElementById('file-name').textContent = fileName;
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Apply badge styling to Churn Prediction column
+            const cells = document.querySelectorAll('td');
+            cells.forEach(cell => {
+                const text = cell.textContent.trim();
+                if (text === 'Churn') {
+                    cell.innerHTML = '<span class="status-badge status-churn">Churn</span>';
+                    cell.classList.add('churn-cell');
+                } else if (text === 'Not Churn') {
+                    cell.innerHTML = '<span class="status-badge status-no-churn">Fidèle</span>';
+                    cell.classList.add('churn-cell');
+                }
+            });
+
+            let showSec = localStorage.getItem('showSection') || 'Predict_Single_Customer';
+            let hideSec = showSec === 'Predict_Single_Customer' ? 'Predict_from_CSVExcel' : 'Predict_Single_Customer';
+            
+            // Initial setup without transition
+            document.getElementById(hideSec).style.display = 'none';
+            document.getElementById(showSec).style.display = 'block';
+            document.getElementById(showSec).style.opacity = '1';
+        });
+    </script>
+</body>
+</html>

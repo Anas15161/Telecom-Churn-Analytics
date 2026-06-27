@@ -1,0 +1,24 @@
+Plan de travail (Pour la rédaction de vos rapports) :
+(NB: Chaque chapitre doit commencer par une introduction et terminer par une conclusion)
+sujet de projet : Prédiction de la perte de client dans le domaine de Télécom
+Tables des matières
+- Résumé (Français, Anglais)
+- Dédicaces
+- Remerciements
+- Table des figures
+- Liste des tableaux
+- Abréviations
+- Introduction générale
+
+- Chapitre 1: Cadre général du projet (problématique et enjeux, objectifs, solution proposée, planification du projet, ...)
+
+- Chapitre 2: Élaboration du cahier de charge (Ettude de l'existence, identification des besoins fonctionnels et non fonctionnels, cachier de charges (exigences de deux parties (admin et décideur(user))
+
+- Chapitre 3: Conception de l'application (Architecture globale du modèle, data set, Choix des algorithmes et techniques, Interface utilisateur)
+
+- Chapitre 4: Développement et implémentation (Les étapes de CRISP)
+ -Chapitre 5: Résultats et discussion: Interprétation, comparaison, Limitations et pistes d'amélioration
+
+- Conclusion générale: Récapitulation des résultats, Contributions du projet, Perspectives d'avenir
+
+- Bibliographie (Références)
