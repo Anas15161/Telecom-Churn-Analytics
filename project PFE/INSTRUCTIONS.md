@@ -1,6 +1,6 @@
 # 🚀 Guide de Test et de Lancement du Projet PFE
 
-Ce document contient toutes les instructions nécessaires pour installer, lancer et tester l'application de prédiction du Churn Client de Maroc Telecom sur votre machine.
+Ce document contient toutes les instructions nécessaires pour installer, lancer et tester l'application de prédiction du Churn Client de Horizon Telecom sur votre machine.
 
 ---
 
