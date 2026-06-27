@@ -91,8 +91,8 @@ La matrice de corrélation et l'importance des variables montrent que les facteu
 Le projet propose une interface moderne et fluide, animée avec Vanilla CSS et JavaScript.
 
 <p align="center">
-  <img src="images/figure9_prediction_individuelle.png" alt="Interface Individuelle" width="450">
-  <img src="images/figure10_prediction_groupe.png" alt="Interface Batch" width="450">
+  <img src="images/screenshot_prediction_individuelle.png" alt="Interface Individuelle" width="450">
+  <img src="images/screenshot_prediction_groupe.png" alt="Interface Batch" width="450">
   <br><i>Figure 3 : Formulaire de simulation client (gauche) et interface d'analyse batch (droite)</i>
 </p>
 
